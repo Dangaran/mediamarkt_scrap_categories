@@ -19,6 +19,6 @@ In the main folder (mediamarkt_scraper), run the script "run_mediamarkt_locally"
 `python run_mediamarkt_locally.py`
 \
 \
-*You can run the script directly from the terminal using the absolute path to "run_mediamarkt_locally" script: `python /absolute_path/run_mediamarkt_locally.py`*
+ <sub>*You can run the script directly from the terminal using the absolute path to "run_mediamarkt_locally" script: `python /absolute_path/run_mediamarkt_locally.py`*<sub>
 
 
