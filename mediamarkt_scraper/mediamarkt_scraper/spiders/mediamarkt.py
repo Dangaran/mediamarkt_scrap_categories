@@ -18,12 +18,11 @@ class Mediamarkt_Spider(scrapy.Spider):
                               'url': [item.split("'")[1] for item in onclick]}
         try:
             # Ask which category should be scrapped
-            input_cat = input('Choose the category that you want to scrap:\n{}\n'.format(', '.join(general_categories['categories']))).strip()
+            input_cat = input('\nChoose the category that you want to scrap:\n{}\n'.format(', '.join(general_categories['categories']))).strip()
             cat_index = general_categories['categories'].index(str(input_cat))
 
         except ValueError:
-            input_cat = input('Wrong category, please copy and paste the same name from this list:\n{}\n'.format(', '.join(general_categories['categories']))).strip()
-            print(input_cat)
+            input_cat = input('\nWrong category, please copy and paste the same name from this list:\n{}\n'.format(', '.join(general_categories['categories']))).strip()
             cat_index = general_categories['categories'].index(str(input_cat))
 
         url_to_scrap = general_categories['url'][cat_index]
@@ -40,10 +39,10 @@ class Mediamarkt_Spider(scrapy.Spider):
                 'url': response_sub_cat.xpath('.//article/a[contains(@class, "distributor-")]/@href').extract()
             }
             try:
-                input_subcat = input('This product has subcategories. Please, select one from the list:\n{}\n'.format(', '.join(subcat['sub_category']))).strip()
+                input_subcat = input('\nThis product has subcategories. Please, select one from the list:\n{}\n'.format(', '.join(subcat['sub_category']))).strip()
                 subcat_index = subcat['sub_category'].index(input_subcat)
             except ValueError:
-                input_subcat = input('Wrong category, please copy and paste the same name from this list:\n{}\n'.format(', '.join(subcat['sub_category']))).strip()
+                input_subcat = input('\nWrong category, please copy and paste the same name from this list:\n{}\n'.format(', '.join(subcat['sub_category']))).strip()
                 subcat_index = subcat['sub_category'].index(input_subcat)
             url_to_scrap = subcat['url'][subcat_index]
             # request to url
@@ -51,12 +50,14 @@ class Mediamarkt_Spider(scrapy.Spider):
 
         else:
             url_to_category = response.meta['url']
-            print('no subcategories found')
+            print('\nNo subcategories found')
+            print('\nStarting data scraping')
             yield Request(url_to_category, callback=self._get_products, dont_filter=True)
 
     def _get_products(self, response):
         third_category = response.xpath('//*[@class="categories-flat-descendants"]')
         if third_category:
+            print('\nStarting data scraping')
             for new_cat in third_category.xpath('.//a/@href').extract():
                 url_new_cat = self.start_urls[0] + new_cat
                 yield Request(url_new_cat, callback=self._get_products, dont_filter=True)
@@ -83,10 +84,10 @@ class Mediamarkt_Spider(scrapy.Spider):
                         product_info.update({str(specs[number].replace(':', '')): product.xpath('.//*[@class="product-details"]/dd["style"][{}]/text()'.format(number+1)).extract_first()})
                     # extract actual price
                     product_info['actual_price'] = product.xpath('.//*[@class="price small"]/text()').extract_first().split('-')[0].replace(',', '.')
-                    # sale_item?
-                    product_info['sale_item'] = False
+                    # is the item on sale?
+                    product_info['on_sale'] = False
                     if product.xpath('.//*[@class="price-old-info price-old-info-text"]').extract():
-                        product_info['sale_item'] = True
+                        product_info['on_sale'] = True
 
                     yield product_info
                 except:
@@ -97,6 +98,9 @@ class Mediamarkt_Spider(scrapy.Spider):
             path = response.xpath('//*[@class="pagination-next"]/a[@href]/@href').extract_first()
             time.sleep(2)
             if path:
-                print('Scraping next page')
+                print('Continue scraping the next page')
                 url_next_page = 'https://www.mediamarkt.es{}'.format(path)
                 yield Request(url_next_page, callback=self._get_products)
+
+    def close(self, reason):
+        print('\nAll information has been extracted, you can found the file in your current directory')

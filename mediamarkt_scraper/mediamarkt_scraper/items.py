@@ -14,4 +14,3 @@ class item_info(scrapy.Item):
     actual_price = scrapy.Field()
     sale_item = scrapy.Field()
     product_link = scrapy.Field()
-    #specs = scrapy.Field()
