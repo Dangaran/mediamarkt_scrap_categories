@@ -12,8 +12,8 @@ You can also download the project from your terminal with the command:\
 **Python version required 3+**
 
 Once you have the project in your computer, open a terminal tab and go to the project folder.\
-`cd path_to_your_project_folder`\
-             
+`cd path_to_your_project_folder`
+\
 In the main folder, run the script "run_mediamarkt_locally" with the command:\
 `python run_mediamarkt_locally.py`
 
