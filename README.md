@@ -15,7 +15,10 @@ Once you have the project in your computer, open a terminal tab and go to the pr
 `cd path_to_your_project_folder`
 \
 \
-In the main folder, run the script "run_mediamarkt_locally" with the command:\
+In the main folder (mediamarkt_scraper), run the script "run_mediamarkt_locally" with the command:\
 `python run_mediamarkt_locally.py`
+\
+\
+*You can run the script directly from the terminal using the absolute path to "run_mediamarkt_locally" script: `python /absolute_path/run_mediamarkt_locally.py`*
 
 
