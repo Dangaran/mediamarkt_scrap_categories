@@ -14,6 +14,6 @@ Once you have the project in your computer, open a terminal tab and go to the pr
              `cd path_to_your_project_folder`
              
 In the main folder, run the script "run_mediamarkt_locally" with the command:
-            `python run_mediamarkt_locally.py
+            `python run_mediamarkt_locally.py`
 
 
