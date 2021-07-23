@@ -1,4 +1,5 @@
 # mediamarkt_scrap_categories
+### Deprecated due to changes in mediamarkt website!!
 Spider to download basic data for products of selected category
 
 ## Download project
